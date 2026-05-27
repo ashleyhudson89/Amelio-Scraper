@@ -1,0 +1,87 @@
+{
+  "name": "WC2026 · Curse stat (T-6h)",
+  "_description": "Six hours before each kickoff: pick a curse from data/curses.json whose triggers match the fixture, draft the carousel with OpenAI, render via the render service, route to IG (auto) or Telegram (manual).",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "minutes", "minutesInterval": 30 }
+          ]
+        }
+      },
+      "id": "schedule",
+      "name": "Every 30 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300],
+      "notes": "Polls every 30 min looking for fixtures kicking off in ~6 hours. The next Code node filters."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Load fixtures + curses, find a fixture kicking off in the next 5.5–6.5 hours,\n// pick a curse whose triggers match.\n// Wire data/fixtures.json and data/curses.json into preceding nodes (HTTP GitHub raw or Code node inline)."
+      },
+      "id": "select-curse",
+      "name": "Select fixture + curse",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {},
+      "id": "openai-draft",
+      "name": "OpenAI · Draft (curse-stat prompt)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "notes": "System prompt = prompts/curse-stat.md. User input = the JSON from Select fixture + curse."
+    },
+    {
+      "parameters": {},
+      "id": "render",
+      "name": "Render carousel (template=curse-stat)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {},
+      "id": "route",
+      "name": "Auto or manual?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {},
+      "id": "ig-publish",
+      "name": "Instagram · Publish",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {},
+      "id": "telegram-review",
+      "name": "Telegram · Manual review",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1340, 400]
+    }
+  ],
+  "connections": {
+    "Every 30 min": { "main": [[{ "node": "Select fixture + curse", "type": "main", "index": 0 }]] },
+    "Select fixture + curse": { "main": [[{ "node": "OpenAI · Draft (curse-stat prompt)", "type": "main", "index": 0 }]] },
+    "OpenAI · Draft (curse-stat prompt)": { "main": [[{ "node": "Render carousel (template=curse-stat)", "type": "main", "index": 0 }]] },
+    "Render carousel (template=curse-stat)": { "main": [[{ "node": "Auto or manual?", "type": "main", "index": 0 }]] },
+    "Auto or manual?": {
+      "main": [
+        [{ "node": "Instagram · Publish", "type": "main", "index": 0 }],
+        [{ "node": "Telegram · Manual review", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "worldcup-2026" }, { "name": "curse-stat" }]
+}

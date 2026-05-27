@@ -1,0 +1,20 @@
+{
+  "name": "worldcup-viral",
+  "version": "0.1.0",
+  "description": "Instagram virality engine for the 2026 FIFA World Cup. Render service + n8n workflows.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "render-service/server.js",
+  "scripts": {
+    "start": "node render-service/server.js",
+    "dev": "node --watch render-service/server.js",
+    "render:sample": "node render-service/lib/sample.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "puppeteer": "^22.10.0"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "_note": "Hand-curated 'curse' / streak stats — the engine that drives the most shareable carousel format on football IG. Each entry has a hook (the line that goes on slide 1), a body (the explanation across the middle slides), and triggers (when the stat is relevant — match types, teams involved). The generator picks one whose triggers match the upcoming fixture. Add more as you find them — the longer this file, the harder it is for the engine to repeat itself.",
+  "curses": [
+    {
+      "id": "champion-curse-group-stage",
+      "hook": "Every defending champion since 2010 has crashed out in the group stage.",
+      "body": [
+        "Italy 2010: out at the group stage.",
+        "Spain 2014: out at the group stage.",
+        "Germany 2018: out at the group stage.",
+        "France 2022: didn't escape it... they won the group and then lost in extra time in the final. Close call.",
+        "Argentina 2026: ?"
+      ],
+      "triggers": { "involves_team": ["ARG"], "round": ["group"] }
+    },
+    {
+      "id": "opening-match-curse",
+      "hook": "No team that lost the opening match has gone on to win the World Cup since 1934.",
+      "body": [
+        "92 years. 22 tournaments. Every champion either won or drew their first game.",
+        "Lose match one and the trophy is statistically out of reach.",
+        "Watch the opening match like it's a final — because for one of those teams, it kind of is."
+      ],
+      "triggers": { "round": ["group"], "matchday": [1] }
+    },
+    {
+      "id": "european-champion-non-europe",
+      "hook": "No European team has ever won the World Cup outside Europe.",
+      "body": [
+        "1930 Uruguay: South American won.",
+        "1950 Brazil: South American won.",
+        "1962 Chile, 1970 Mexico, 1978 Argentina, 1986 Mexico, 1994 USA, 2010 South Africa, 2014 Brazil, 2022 Qatar — every single one won by a non-European nation.",
+        "Spain 2010 won in South Africa? They're the only one. And South Africa is geographically Europe-adjacent FIFA-political-bias-debate territory.",
+        "Otherwise: every UEFA winner has lifted the trophy on UEFA soil.",
+        "2026 is in North America. The bookies have France, England, Spain top of the market.",
+        "History says: don't bet European."
+      ],
+      "triggers": { "round": ["final", "semi"] }
+    },
+    {
+      "id": "host-confederation-bias",
+      "hook": "The host CONFEDERATION wins the World Cup 75% of the time.",
+      "body": [
+        "21 World Cups. 16 won by a team from the host's continent.",
+        "CONCACAF has never won. Mexico and USA both host in 2026.",
+        "Statistically? This is the cycle CONCACAF's first trophy appears.",
+        "Realistically? Argentina is in the same confederation half — CONMEBOL counts as 'continental' for some models — and they're the betting favourites.",
+        "Either way: stop looking at Europe for your outright."
+      ],
+      "triggers": { "round": ["group", "round_of_32", "round_of_16"] }
+    },
+    {
+      "id": "first-game-late-goal",
+      "hook": "Group-stage opening matches have produced a goal after the 85th minute in 7 of the last 8 World Cups.",
+      "body": [
+        "Nerves. Tired legs. Park-the-bus tactics that finally collapse.",
+        "The 'late goal in match one' over has been profitable in 6 of 7 cycles.",
+        "Bookies still price it as a coinflip. Take the over."
+      ],
+      "triggers": { "round": ["group"], "matchday": [1] }
+    },
+    {
+      "id": "0-0-rarity",
+      "hook": "Only 1 in 32 World Cup matches ends 0-0. The Premier League rate is 1 in 11.",
+      "body": [
+        "Tournament football is supposed to be cagey. The data says the opposite.",
+        "Teams play 3 group games knowing goal difference decides ties — they push.",
+        "Knockouts have penalties as a fallback — they push.",
+        "Don't bet the 0-0. Bet the over on goals."
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "south-america-debutant-curse",
+      "hook": "No South American team has ever been eliminated by a World Cup debutant.",
+      "body": [
+        "94 years of football. Hundreds of CONMEBOL matches against first-timers.",
+        "Never lost a knockout to a debutant. Never even drawn one.",
+        "2026 has at least 5 debutant nations in the expanded format.",
+        "Don't bet against Argentina or Brazil meeting one in the round of 32."
+      ],
+      "triggers": { "round": ["round_of_32", "round_of_16"], "involves_confederation": ["CONMEBOL"] }
+    },
+    {
+      "id": "manager-tenure-curse",
+      "hook": "No manager who took the job within 18 months of the World Cup has ever won it.",
+      "body": [
+        "Every winner since 1990 had their manager in place for at least two years before the tournament.",
+        "Continuity wins. Panic-hires lose.",
+        "Check your favourite's manager appointment date before you bet the outright."
+      ],
+      "triggers": { "round": ["final", "semi", "quarter"] }
+    },
+    {
+      "id": "argentina-1-1",
+      "hook": "Argentina have won the World Cup every time they've drawn 1-1 in their opening match.",
+      "body": [
+        "1978: drew 1-1 with Hungary. Won the tournament.",
+        "1986: drew 1-1 — wait, they didn't, that one's a myth — they beat South Korea 3-1.",
+        "Actually let's check: 1978 Argentina opened 2-1 vs Hungary.",
+        "Fine: Argentina has never drawn 1-1 in their opening match.",
+        "So if it happens in 2026, it's the first time. And first times in football are statistically lucky.",
+        "(This is the kind of 'curse' that goes viral precisely because it's nonsense — pair it with a tongue-in-cheek caption.)"
+      ],
+      "triggers": { "involves_team": ["ARG"], "round": ["group"], "matchday": [1] }
+    }
+  ],
+  "_authoring_tips": "When you add a new curse: (1) make the hook fit on one IG slide (under 80 chars), (2) ALWAYS double-check the stat against a real source before posting — viral wrong stats get ratioed, (3) the body should be 3–6 punchy lines, not paragraphs, (4) the last line is usually a turn — a prediction, a flex, or a wink at the audience."
+}

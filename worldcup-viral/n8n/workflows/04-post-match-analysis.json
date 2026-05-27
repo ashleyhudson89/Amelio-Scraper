@@ -1,0 +1,26 @@
+{
+  "name": "WC2026 · Post-match analysis (FT+15min)",
+  "_description": "Polls Football-Data.org for matches that finished in the last 15 minutes, fetches stats, drafts via OpenAI (prompts/post-match.md), renders template=post-match, routes auto/manual.",
+  "_pattern_note": "Same shape as the others. The novel piece is the FT detection — Football-Data.org's free tier doesn't push events, so poll every 5 min and dedupe in a Code node against a 'already posted' list (Postgres, Redis, or n8n's Static Data).",
+  "nodes": [
+    { "id": "schedule", "name": "Every 5 min", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.1, "position": [240, 300], "parameters": { "rule": { "interval": [{ "field": "minutes", "minutesInterval": 5 }] } } },
+    { "id": "fetch-finished", "name": "Fetch finished matches", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [460, 300], "parameters": {}, "notes": "GET https://api.football-data.org/v4/competitions/WC/matches?status=FINISHED&dateFrom=today" },
+    { "id": "dedupe", "name": "Dedupe (only freshly finished)", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [680, 300], "parameters": {}, "notes": "Use $getWorkflowStaticData('global').postedMatchIds to skip already-posted matches." },
+    { "id": "openai-draft", "name": "OpenAI · Draft (post-match prompt)", "type": "@n8n/n8n-nodes-langchain.openAi", "typeVersion": 1, "position": [900, 300], "parameters": {} },
+    { "id": "render", "name": "Render carousel (template=post-match)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [1120, 300], "parameters": {} },
+    { "id": "route", "name": "Auto or manual?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [1340, 300], "parameters": {} },
+    { "id": "ig-publish", "name": "Instagram · Publish", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [1560, 200], "parameters": {} },
+    { "id": "telegram-review", "name": "Telegram · Manual review", "type": "n8n-nodes-base.telegram", "typeVersion": 1.2, "position": [1560, 400], "parameters": {} }
+  ],
+  "connections": {
+    "Every 5 min": { "main": [[{ "node": "Fetch finished matches", "type": "main", "index": 0 }]] },
+    "Fetch finished matches": { "main": [[{ "node": "Dedupe (only freshly finished)", "type": "main", "index": 0 }]] },
+    "Dedupe (only freshly finished)": { "main": [[{ "node": "OpenAI · Draft (post-match prompt)", "type": "main", "index": 0 }]] },
+    "OpenAI · Draft (post-match prompt)": { "main": [[{ "node": "Render carousel (template=post-match)", "type": "main", "index": 0 }]] },
+    "Render carousel (template=post-match)": { "main": [[{ "node": "Auto or manual?", "type": "main", "index": 0 }]] },
+    "Auto or manual?": { "main": [[{ "node": "Instagram · Publish", "type": "main", "index": 0 }], [{ "node": "Telegram · Manual review", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "worldcup-2026" }, { "name": "post-match" }]
+}

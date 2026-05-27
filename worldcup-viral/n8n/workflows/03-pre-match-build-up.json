@@ -1,0 +1,30 @@
+{
+  "name": "WC2026 · Pre-match build-up (T-2h)",
+  "_description": "Two hours before kickoff: fetch recent form + H2H from Football-Data.org, draft via OpenAI (prompts/pre-match.md), render via template=pre-match, route auto/manual.",
+  "_pattern_note": "Same shape as 01-daily-value-bet. Differences: schedule = 'every 30 min, filter to T-2h ± 15 min', data fetched = recent form via Football-Data.org /matches?status=FINISHED&limit=5, template name = 'pre-match'.",
+  "nodes": [
+    { "id": "schedule", "name": "Every 15 min", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.1, "position": [240, 300], "parameters": { "rule": { "interval": [{ "field": "minutes", "minutesInterval": 15 }] } } },
+    { "id": "filter", "name": "Find fixture T-2h", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [460, 300], "parameters": {} },
+    { "id": "form-home", "name": "Form · home", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [680, 240], "parameters": {}, "notes": "GET https://api.football-data.org/v4/teams/{HOME_ID}/matches?status=FINISHED&limit=5" },
+    { "id": "form-away", "name": "Form · away", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [680, 360], "parameters": {} },
+    { "id": "merge", "name": "Merge form + h2h", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [900, 300], "parameters": {} },
+    { "id": "openai-draft", "name": "OpenAI · Draft (pre-match prompt)", "type": "@n8n/n8n-nodes-langchain.openAi", "typeVersion": 1, "position": [1120, 300], "parameters": {} },
+    { "id": "render", "name": "Render carousel (template=pre-match)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [1340, 300], "parameters": {} },
+    { "id": "route", "name": "Auto or manual?", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [1560, 300], "parameters": {} },
+    { "id": "ig-publish", "name": "Instagram · Publish", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [1780, 200], "parameters": {} },
+    { "id": "telegram-review", "name": "Telegram · Manual review", "type": "n8n-nodes-base.telegram", "typeVersion": 1.2, "position": [1780, 400], "parameters": {} }
+  ],
+  "connections": {
+    "Every 15 min": { "main": [[{ "node": "Find fixture T-2h", "type": "main", "index": 0 }]] },
+    "Find fixture T-2h": { "main": [[{ "node": "Form · home", "type": "main", "index": 0 }, { "node": "Form · away", "type": "main", "index": 0 }]] },
+    "Form · home": { "main": [[{ "node": "Merge form + h2h", "type": "main", "index": 0 }]] },
+    "Form · away": { "main": [[{ "node": "Merge form + h2h", "type": "main", "index": 0 }]] },
+    "Merge form + h2h": { "main": [[{ "node": "OpenAI · Draft (pre-match prompt)", "type": "main", "index": 0 }]] },
+    "OpenAI · Draft (pre-match prompt)": { "main": [[{ "node": "Render carousel (template=pre-match)", "type": "main", "index": 0 }]] },
+    "Render carousel (template=pre-match)": { "main": [[{ "node": "Auto or manual?", "type": "main", "index": 0 }]] },
+    "Auto or manual?": { "main": [[{ "node": "Instagram · Publish", "type": "main", "index": 0 }], [{ "node": "Telegram · Manual review", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "worldcup-2026" }, { "name": "pre-match" }]
+}

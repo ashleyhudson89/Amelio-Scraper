@@ -1,0 +1,49 @@
+{
+  "_note": "Editorial seeds for the scandal/drama content thread. Different from curses.json — these need YOU to verify before publishing because they're about real living people and the legal exposure for repeating a false rumour is real. Each entry is a STARTING POINT, not a finished post. The scandal generator in n8n is set up to require manual approval (Telegram or Drive review) before anything publishes.",
+  "_legal_disclaimer": "Only post claims you can source to a reputable outlet. Frame as 'X reported that...' not 'Y did Z'. Don't repeat allegations involving minors, sexual assault, or criminal matters that haven't been confirmed by police or a court. When in doubt: cut.",
+  "seeds": [
+    {
+      "id": "federation-bonus-row",
+      "angle": "Player bonus disputes are the most reliable pre-tournament drama in football. Nigeria 2022, Cameroon 2014, Ghana 2014 — the pattern is: federation underpays, players threaten to walk, story leaks 48hr before opening match.",
+      "applies_to": ["NGA", "GHA", "CMR", "CIV", "SEN"],
+      "research_prompt": "Search recent news for 'bonus dispute' or 'pay row' involving [TEAM] in the last 60 days. The story is usually broken by local sports papers first.",
+      "post_format": "Carousel: slide 1 hook ('There's a bonus war breaking out inside [TEAM]'s camp'), slide 2-4 timeline, slide 5 'what it means for the match'."
+    },
+    {
+      "id": "manager-player-feud",
+      "angle": "Public manager-player friction. Watch for press conferences where a manager declines to name a star in the lineup, or a player skips a session 'for personal reasons'.",
+      "applies_to": ["BEL", "GER", "ENG", "FRA", "POR"],
+      "research_prompt": "Check the last 14 days of press conferences for [TEAM]. Any unanswered questions about [STAR_PLAYER]? Any 'we'll see' responses to lineup questions? That's the smoke.",
+      "post_format": "Carousel: 'Why isn't [PLAYER] starting? — what we know.' Frame as questions, not accusations."
+    },
+    {
+      "id": "training-camp-leaks",
+      "angle": "What's happening inside the camp. Hotel changes, training ground locations, who's rooming with who, who's late to dinner. Tabloid-style but FIFA-clean.",
+      "applies_to": "ALL",
+      "research_prompt": "Search [TEAM] + camp + leak / [TEAM] + hotel in local language press. The English press lags 24-48hr.",
+      "post_format": "Single slide for fast-turn, or carousel if there are 3+ details."
+    },
+    {
+      "id": "kit-controversy",
+      "angle": "Federation-sponsor-fan triangulation. Every cycle has at least 3 kit controversies — colour choice, sponsor logo, religious imagery, sleeve advertising.",
+      "applies_to": "ALL",
+      "research_prompt": "Search [TEAM] + kit + reaction / [TEAM] + jersey + controversy in last 30 days.",
+      "post_format": "Single slide with kit image + the controversy headline. High share rate because the kit itself is the meme."
+    },
+    {
+      "id": "selection-snub",
+      "angle": "Star players left out of squads. Final 26-man lists drop ~10 days before kickoff and there's always at least one furious omission per nation.",
+      "applies_to": "ALL",
+      "research_prompt": "Compare announced 26-man squad vs market consensus pre-announcement. The gap is the story.",
+      "post_format": "Carousel: 'The 5 biggest snubs of [WC 2026]'. This is the highest-share scandal format historically."
+    },
+    {
+      "id": "ref-appointment-row",
+      "angle": "Referee assignments. CONMEBOL fans accusing UEFA bias, UEFA fans accusing CONMEBOL bias, everyone accusing Saudi referees of bias — the meta-story of every WC.",
+      "applies_to": "ALL",
+      "research_prompt": "Match-day -2: FIFA publishes ref assignments. Cross-reference ref's nationality against either team's recent grievances.",
+      "post_format": "Single slide pre-match: 'Today's ref: [NAME], [NATIONALITY]. Last [TEAM] match: [RESULT + context].'"
+    }
+  ],
+  "_authoring_tips": "The scandal thread should be 10-20% of your total posting volume — too much and you tip from 'savvy account' into 'tabloid' and lose the stats credibility that makes the other content work. Pair every scandal post with a stats post the same day."
+}

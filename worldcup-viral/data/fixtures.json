@@ -1,0 +1,35 @@
+{
+  "_note": "2026 FIFA World Cup — 48 teams, 12 groups (A–L), 104 matches, hosted by USA/Canada/Mexico. The hosts are pre-seeded: Mexico in A1, Canada in B1, USA in D1 (FIFA's announced seeding before the December 2025 draw). VERIFY the rest of the draw and the kickoff times against the official FIFA fixture list before activating workflows — do not push generated content live until every TODO_TEAM slot is replaced with the real team code from data/teams.json.",
+  "_source_to_verify": "https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026",
+  "tournament": {
+    "start": "2026-06-11",
+    "end": "2026-07-19",
+    "final_venue": "MetLife Stadium, East Rutherford"
+  },
+  "groups": {
+    "A": ["MEX", "TODO_TEAM_A2", "TODO_TEAM_A3", "TODO_TEAM_A4"],
+    "B": ["CAN", "TODO_TEAM_B2", "TODO_TEAM_B3", "TODO_TEAM_B4"],
+    "C": ["TODO_TEAM_C1", "TODO_TEAM_C2", "TODO_TEAM_C3", "TODO_TEAM_C4"],
+    "D": ["USA", "TODO_TEAM_D2", "TODO_TEAM_D3", "TODO_TEAM_D4"],
+    "E": ["TODO_TEAM_E1", "TODO_TEAM_E2", "TODO_TEAM_E3", "TODO_TEAM_E4"],
+    "F": ["TODO_TEAM_F1", "TODO_TEAM_F2", "TODO_TEAM_F3", "TODO_TEAM_F4"],
+    "G": ["TODO_TEAM_G1", "TODO_TEAM_G2", "TODO_TEAM_G3", "TODO_TEAM_G4"],
+    "H": ["TODO_TEAM_H1", "TODO_TEAM_H2", "TODO_TEAM_H3", "TODO_TEAM_H4"],
+    "I": ["TODO_TEAM_I1", "TODO_TEAM_I2", "TODO_TEAM_I3", "TODO_TEAM_I4"],
+    "J": ["TODO_TEAM_J1", "TODO_TEAM_J2", "TODO_TEAM_J3", "TODO_TEAM_J4"],
+    "K": ["TODO_TEAM_K1", "TODO_TEAM_K2", "TODO_TEAM_K3", "TODO_TEAM_K4"],
+    "L": ["TODO_TEAM_L1", "TODO_TEAM_L2", "TODO_TEAM_L3", "TODO_TEAM_L4"]
+  },
+  "fixtures": [
+    {
+      "id": "OPENING_MATCH",
+      "round": "group",
+      "group": "A",
+      "kickoff_utc": "2026-06-11T19:00:00Z",
+      "venue": "Estadio Azteca, Mexico City",
+      "home": "MEX",
+      "away": "TODO_TEAM_A2"
+    }
+  ],
+  "_TODO": "After the draw and schedule are confirmed, replace this 1-entry stub with all 104 fixtures. Use the same shape: { id, round, group?, kickoff_utc, venue, home, away }. The render templates only need: home, away, kickoff_utc, venue, round, group."
+}

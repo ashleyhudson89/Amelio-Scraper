@@ -1,0 +1,26 @@
+{
+  "name": "WC2026 · Scandal editorial (manual trigger)",
+  "_description": "Manual webhook trigger. You POST { team, source_url } and the workflow scrapes the article, drafts via prompts/scandal.md, renders template=scandal, and ALWAYS routes to Telegram for approval — never auto-publishes. This is the editorial layer; the model writes the draft, you press send.",
+  "_safety": "This workflow MUST NOT auto-publish. The router is deliberately omitted — only the Telegram branch exists. Adding auto-publish here is how you get sued.",
+  "nodes": [
+    { "id": "webhook", "name": "Webhook trigger", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [240, 300], "parameters": { "path": "scandal", "httpMethod": "POST" }, "notes": "POST to {n8n url}/webhook/scandal with body { team, source_url, fixture_id? }" },
+    { "id": "fetch-article", "name": "Fetch article HTML", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [460, 300], "parameters": {} },
+    { "id": "extract", "name": "Extract headline + quotes", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [680, 300], "parameters": {}, "notes": "Strip HTML, pull headline + first 5 paragraphs. Feed as 'source' into the OpenAI prompt." },
+    { "id": "openai-draft", "name": "OpenAI · Draft (scandal prompt)", "type": "@n8n/n8n-nodes-langchain.openAi", "typeVersion": 1, "position": [900, 300], "parameters": {}, "notes": "System prompt = prompts/scandal.md. If output has empty slides[], the model has rejected the source — log and stop, don't send to Telegram." },
+    { "id": "guard", "name": "Reject if model bailed", "type": "n8n-nodes-base.if", "typeVersion": 2, "position": [1120, 300], "parameters": {} },
+    { "id": "render", "name": "Render carousel (template=scandal)", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [1340, 240], "parameters": {} },
+    { "id": "telegram-review", "name": "Telegram · ALWAYS manual review", "type": "n8n-nodes-base.telegram", "typeVersion": 1.2, "position": [1560, 240], "parameters": {}, "notes": "Sends the draft caption + review_notes + first slide preview. You publish from your phone after reviewing." },
+    { "id": "log-reject", "name": "Log rejected draft", "type": "n8n-nodes-base.code", "typeVersion": 2, "position": [1340, 400], "parameters": {} }
+  ],
+  "connections": {
+    "Webhook trigger": { "main": [[{ "node": "Fetch article HTML", "type": "main", "index": 0 }]] },
+    "Fetch article HTML": { "main": [[{ "node": "Extract headline + quotes", "type": "main", "index": 0 }]] },
+    "Extract headline + quotes": { "main": [[{ "node": "OpenAI · Draft (scandal prompt)", "type": "main", "index": 0 }]] },
+    "OpenAI · Draft (scandal prompt)": { "main": [[{ "node": "Reject if model bailed", "type": "main", "index": 0 }]] },
+    "Reject if model bailed": { "main": [[{ "node": "Render carousel (template=scandal)", "type": "main", "index": 0 }], [{ "node": "Log rejected draft", "type": "main", "index": 0 }]] },
+    "Render carousel (template=scandal)": { "main": [[{ "node": "Telegram · ALWAYS manual review", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "worldcup-2026" }, { "name": "scandal" }, { "name": "manual-only" }]
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --accent: #00ff85;
+    --secondary: #ff0066;
+    --text: #ffffff;
+    --muted: #6b6b6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; background: var(--bg); color: var(--text); font-family: "Helvetica Neue", Arial, sans-serif; overflow: hidden; }
+  body { display: flex; flex-direction: column; padding: 80px; position: relative; }
+  .kicker { font-size: 32px; font-weight: 900; letter-spacing: 0.4em; color: var(--accent); text-transform: uppercase; z-index: 1; }
+  .footer { position: absolute; bottom: 60px; left: 80px; right: 80px; display: flex; justify-content: space-between; font-size: 22px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; z-index: 1; }
+  /* HOOK slide — the match-up card */
+  .hook { display: none; flex-direction: column; justify-content: center; flex: 1; z-index: 1; }
+  .hook .title { font-size: 160px; font-weight: 900; line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; }
+  .hook .title .vs { display: block; font-size: 80px; color: var(--secondary); margin: 20px 0; }
+  .hook .subtitle { font-size: 36px; color: var(--muted); font-weight: 500; margin-top: 50px; letter-spacing: 0.05em; }
+  body[data-slot="hook"] .hook { display: flex; }
+  /* STAT slide */
+  .stat { display: none; flex-direction: column; justify-content: center; flex: 1; z-index: 1; gap: 30px; }
+  .stat .label { font-size: 36px; color: var(--muted); letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700; }
+  .stat .value { font-size: 130px; font-weight: 900; line-height: 1.0; color: var(--accent); letter-spacing: -0.02em; }
+  .stat .footnote { font-size: 32px; color: var(--text); font-weight: 500; line-height: 1.3; }
+  body[data-slot="stat"] .stat { display: flex; }
+  /* PREDICTION slide */
+  .prediction { display: none; flex-direction: column; justify-content: center; flex: 1; z-index: 1; gap: 40px; }
+  .prediction .label { font-size: 32px; color: var(--secondary); letter-spacing: 0.3em; text-transform: uppercase; font-weight: 900; }
+  .prediction .value { font-size: 110px; font-weight: 900; line-height: 1.0; letter-spacing: -0.02em; text-transform: uppercase; }
+  .prediction .reason { font-size: 36px; color: var(--muted); font-weight: 500; line-height: 1.4; }
+  body[data-slot="prediction"] .prediction { display: flex; }
+</style>
+</head>
+<body data-slot="{{slot}}">
+  <div class="kicker">{{kicker}}</div>
+
+  <div class="hook">
+    <div class="title">{{title}}</div>
+    <div class="subtitle">{{subtitle}}</div>
+  </div>
+
+  <div class="stat">
+    <div class="label">{{label}}</div>
+    <div class="value">{{value}}</div>
+    <div class="footnote">{{footnote}}</div>
+  </div>
+
+  <div class="prediction">
+    <div class="label">{{label}}</div>
+    <div class="value">{{value}}</div>
+    <div class="reason">{{reason}}</div>
+  </div>
+
+  <div class="footer">
+    <span>{{handle}}</span>
+    <span>{{slide_num}}</span>
+  </div>
+</body>
+</html>
